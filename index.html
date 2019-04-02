@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .demo{
+            width: 300px;
+            height: 300px;
+            margin: 100px auto 0;
+            background: green;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .demo .inner{
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+            background: coral;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script src="https://vuejs.org/js/vue.min.js"></script>
+</head>
+<body>
+    
+    <div class="demo">
+        <span v-tap.stop='fun1'>{{ msg }}</span>
+        <div class="inner" v-tap='fun2'></div>
+    </div>
+
+    <script src="index.js"></script>
+    <script>
+        var app = new Vue({
+            el: ".demo",
+            data: {
+                msg: 'Hello Vue'
+            },
+            methods: {
+                fun1(){
+                    console.log('aa');
+                },
+                fun2(){
+                    console.log('bb');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
