@@ -34,8 +34,14 @@
 <body>
     
     <div class="demo">
-        <span v-tap.stop='fun1'>{{ msg }}</span>
-        <div class="inner" v-tap='fun2'></div>
+        <span v-vue-tap.stop='fun1'>{{ msg }}</span>
+        <div class="inner" v-vue-tap='{
+            tapDown: down,
+            tapUp: up,
+            tapRight: right,
+            tapLeft: left,
+            tap: click
+        }'></div>
     </div>
 
     <script src="index.js"></script>
@@ -51,9 +57,31 @@
                 },
                 fun2(){
                     console.log('bb');
+                },
+                func3(){
+                    console.log('fun3');
+                },
+                down(){
+                    console.log('swiper down');
+                },
+                up(){
+                    console.log('swiper up');
+                },
+                left(e,args){
+                    console.log(e);
+                    console.log(args);
+                },
+                right(){
+                    console.log('swiper right');
+                },
+                click(e,args){
+                    console.log('click');
+                    console.log(e);
+                    console.log(args);
                 }
             }
         });
+
     </script>
 </body>
 </html>
