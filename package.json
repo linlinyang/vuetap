@@ -1,5 +1,5 @@
 {
-  "name": "vuetap",
+  "name": "vue-tap-directive",
   "version": "1.0.0",
   "description": "A plugin for vue directive",
   "main": "index.js",
