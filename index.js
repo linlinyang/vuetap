@@ -18,93 +18,75 @@
 })(this,function(){
     "use strict";
 
-    var _Vue;
-    var inBrowser = window !== undefined;
-    var supportTouch  = !!document && 'touchend' in document;
-    var supportPassive = false;
+    var inBrowser = window !== undefined,
+        supportTouch  = !!document && 'touchend' in document,
+        supportPassive = false,
+        captureSupport = false,
+        onceSupport = false;
 
     try{
 
-        var option = Object.defineProperty({},'passive',{
-            get: function(){
-                supportPassive = true;
-                option = null;
+        var option = Object.defineProperties({},{
+            passive: {
+                get: function(){
+                    supportPassive = true;
+                }
+            },
+            capture: {
+                get: function(){
+                    captureSupport = true;
+                }
+            },
+            once: {
+                get: function(){
+                    onceSupport = true;
+                }
             }
         })
 
         window.addEventListener('test',null,option);
     }catch(e){}
     
-    function Handler(el,options,modifiers){
-        Object.assign(this,{
-            el: el,
-            stop: false,//是否阻止事件冒泡
-            prevent: false,//是否组织事件默认操作
-            capture: false,//false: 事件冒泡; true: 事件捕获
-            self: false,//为true则绑定事件和触发事件元素必须是同一个
-            once: false,//事件只触发一次
-        },options,modifiers);
-        //this.passive = supportPassive && (this.passive || true);//忽略阻止默认事件
-        this.startX = 0;
-        this.startY = 0;
-        this.startTime = 0;
-    }
-    Handler.prototype.init = function(){
-        /* var el = this.el,
-            capture = !!this.modifiers.capture; */
-        /* if(supportTouch){
-            var touchStartHandler = this.touchStartHandler = this.touchStart.bind(this),
-                touchEndHandler = this.touchEndHandler = this.touchEnd.bind(this);
-            el.addEventListener('touchstart',touchStartHandler,capture);
-            el.addEventListener('touchend',touchEndHandler,capture);
-        }else{ */
-            var clickHandler = this.clickHandler = this.click.bind(this);
-            this.el.addEventListener('click',clickHandler,false);
-        //}
-    };
-    Handler.prototype.touchStart = function(e){
-        this.startX = e.clientX;
-        this.startY = e.clientY;
-        this.startTime = new Date();
-        this.modifiers.stop && e.stopPropagation();
-    };
-    Handler.prototype.touchEnd = function(e){
-        
-    };
-    Handler.prototype.click = function(e){
-        var modifiers = this.modifiers,
-            el = this.el;
-        console.log(eventHandler);
-        /* modifiers.stop && e.stopPropagation();
-        modifiers.prevent && e.preventDefault();
-        
-        if(this.callback){
-            ((modifiers.self && el === e.srcElement) || (!modifiers.self)) && this.callback.call(el,e,this);;
-        } */
+    function forceMerge(to,from){
+        var keys = from.keys(),
+            len = keys.length;
 
-    };
-    Handler.prototype.execCallback = function(){
-        var modifiers = this.modifiers,
-            el = this.el;
-        
-        if(this.callback){
-            if((modifiers.self && el === e.srcElement) || (!modifiers.self)){
-                this.callback.call(el,e,this);
-                modifiers.once && this.free();
+        while(len--){
+            var tempKey = keys[len];
+            if(to[tempKey] === undefined){
+                to[tempKey] = from[tempKey];
+            }else{
+                to[tempKey] = to[tempKey] && from[tempKey];
             }
         }
-    };
-    Handler.prototype.free = function(){
 
-        if(supportTouch){
+        return to;
+    }
 
-        }else{
-            this.el.removeElevtListener('click',this.clickHandler,);
-        }
-    };
+    if(!Element.prototype.bindEvent){
+        var oListeners = [];
+        Element.prototype.bindEvent = function(type,handler,options){
+            
+        };
+    }
 
-
-    var eventHandler;
+    var oldX = oldY = startTime = 0;
+    function createTouchStart(modifiers,handlerObj){
+        return function(e){
+            
+        };
+    }
+    function createTouchMove(modifiers,handlerObj){
+        
+    }
+    function createTouchEnd(modifiers,handlerObj){
+        return function(e){
+            var curEl = e.currentElement,
+                targetEl = e.target || e.srcElement;
+            
+            
+        };
+    }
 
     var vueTap = {
         bind(el,binding){
@@ -114,26 +96,25 @@
                         : typeof handler.handler === 'function'
                             ? handler.handler
                             : null;
-                                 
-            eventHandler = new Handler(el,{
-                callback: handler,
-                args: binding.arg
+            var modifiers = forceMerge({
+                passive: true,
+                capture: false,
+                once: false,
+                prevent: false,
+                stop: false,
+                self: false
             },binding.modifiers);
-
-            eventHandler.init();
+            el.bindEvent('click',function(){},modifiers);                     
         },
         unbind(el,binding){
-            eventHandler.free();
-            eventHandler = null;
         }
     };
 
     function _install(vue){
-        if(_install.installed && _Vue === vue){
+        if(_install.installed){
             return ;
         }
         _install.installed = true;
-        _Vue = vue;
         vue.directive('tap',vueTap);
     }
 
