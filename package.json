@@ -4,7 +4,7 @@
   "description": "A plugin for vue directive",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:dist": "rollup -wm -c build/rollup.dev.config.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/linlinyang/vuetap/issues"
   },
-  "homepage": "https://github.com/linlinyang/vuetap#readme"
+  "homepage": "https://github.com/linlinyang/vuetap#readme",
+  "devDependencies": {
+    "rollup": "^1.8.0",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-commonjs": "^9.3.0",
+    "rollup-plugin-flow-no-whitespace": "^1.0.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-replace": "^2.1.1"
+  }
 }
