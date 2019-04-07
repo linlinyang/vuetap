@@ -1,5 +1,37 @@
-import {inBrowser,supportTouch} from './utils/dom';
+import { inBrowser,touchSupport,passiveSupport } from './utils/dom';
+import { createTouchStart,createTouchEnd } from './core/index';
+import inject from './core/inject';
 
-console.log('rollup success');
-console.log(inBrowser);
-console.log(supportTouch);
+const vueTap = {
+    bind(el,binding){
+        const modifiers = binding.modifiers;
+        if(touchSupport){
+            el.bind('touchstart',createTouchStart(modifiers),modifiers);
+            el.bind('touchend',createTouchEnd(binding,modifiers),modifiers);
+        }else{
+            el.bind('mousedown',createTouchStart(modifiers),modifiers);
+            el.bind('mouseup',createTouchEnd(binding,modifiers),modifiers);
+        }
+    },
+    unbind(el,binding){
+        if(touchSupport){
+            el.unbind('touchstart',modifiers);
+            el.unbind('touchend',modifiers);
+        }else{
+            el.unbind('mousedown',modifiers);
+            el.unbind('mouseup',modifiers);
+        }
+    }
+};
+
+inject(vueTap);
+vueTap.componentUpdated = vueTap.bind;
+
+if(inBrowser){
+    vueTap.install = (vue) => {
+        vue.directive('vueTap',vueTap);
+    };
+    Vue && Vue.use(vueTap);
+}
+
+export default vueTap;

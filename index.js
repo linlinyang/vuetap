@@ -166,7 +166,7 @@
                             passive: modifiers.passive
                         }
                         : modifiers.capture;
-                            
+                             
             free(el);
             if(supportTouch){
                 el.bindEvent('touchstart',createTouchStart(modifiers),option);

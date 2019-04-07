@@ -34,17 +34,11 @@
 <body>
     
     <div class="demo">
-        <span v-vue-tap.stop='fun1'>{{ msg }}</span>
-        <div class="inner" v-vue-tap='{
-            tapDown: down,
-            tapUp: up,
-            tapRight: right,
-            tapLeft: left,
-            tap: click
-        }'></div>
+        <span>{{ msg }}</span>
+        <div class="inner" v-vue-tap='tap'></div>
     </div>
 
-    <script src="../index.js"></script>
+    <script src="../dist/bundle.js"></script>
     <script>
         var app = new Vue({
             el: ".demo",
@@ -52,32 +46,8 @@
                 msg: 'Hello Vue'
             },
             methods: {
-                fun1(){
-                    console.log('aa');
-                },
-                fun2(){
-                    console.log('bb');
-                },
-                func3(){
-                    console.log('fun3');
-                },
-                down(){
-                    console.log('swiper down');
-                },
-                up(){
-                    console.log('swiper up');
-                },
-                left(e,args){
-                    console.log(e);
-                    console.log(args);
-                },
-                right(){
-                    console.log('swiper right');
-                },
-                click(e,args){
-                    console.log('click');
-                    console.log(e);
-                    console.log(args);
+                tap(){
+                    console.log('tap');
                 }
             }
         });

@@ -1,10 +1,11 @@
 {
   "name": "vue-tap-directive",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A plugin for vue directive",
   "main": "index.js",
   "scripts": {
-    "dev:dist": "rollup -wm -c build/rollup.dev.config.js"
+    "dev": "rollup -w -c build/build.js",
+    "build": "rollup -c build/build.js"
   },
   "repository": {
     "type": "git",
@@ -23,11 +24,14 @@
   },
   "homepage": "https://github.com/linlinyang/vuetap#readme",
   "devDependencies": {
-    "rollup": "^1.8.0",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^9.3.0",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
     "rollup-plugin-node-resolve": "^4.0.1",
-    "rollup-plugin-replace": "^2.1.1"
+    "rollup-plugin-replace": "^2.1.1",
+    "rollup-plugin-uglify": "^6.0.2"
   }
 }
