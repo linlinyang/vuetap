@@ -35,11 +35,12 @@
     
     <div class="demo">
         <span>{{ msg }}</span>
-        <div class="inner" v-vue-tap='tap'></div>
+        <div class="inner" v-tap='tap'></div>
     </div>
 
     <script src="../dist/bundle.js"></script>
     <script>
+        Vue.directive('tap',vueTap.tap);
         var app = new Vue({
             el: ".demo",
             data: {

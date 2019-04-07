@@ -199,15 +199,15 @@
     }
 
     /* /src/core/inject.js */
-    var swiperTypes = ['swiperLeft', 'swiperRight', 'swiperDown', 'swiperUp'];
+    var swiperTypes = ['tap', 'swiperLeft', 'swiperRight', 'swiperDown', 'swiperUp'];
 
     function inject(vueTap) {
       var len = swiperTypes.length;
 
       while (len--) {
         vueTap[swiperTypes[len]] = {
-          bind: vueTap.bind,
-          componentUpdated: vueTap,
+          bind: vueTap.bind.bind(swiperTypes[len]),
+          componentUpdated: vueTap.bind.bind(swiperTypes[len]),
           unbind: vueTap.unbind
         };
       }
@@ -216,6 +216,7 @@
     var vueTap = {
       bind: function bind(el, binding) {
         var modifiers = binding.modifiers;
+        console.log(arguments);
 
         if (touchSupport) {
           el.bind('touchstart', createTouchStart(modifiers), modifiers);
@@ -237,6 +238,7 @@
     };
     inject(vueTap);
     vueTap.componentUpdated = vueTap.bind;
+    vueTap.version = '__VERSION__';
 
     if (inBrowser) {
       vueTap.install = function (vue) {
