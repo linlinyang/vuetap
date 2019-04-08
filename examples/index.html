@@ -6,53 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .demo{
-            width: 300px;
-            height: 300px;
-            margin: 100px auto 0;
-            background: green;
+        #app{
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
-            flex-flow: column wrap;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+            flex-flow: row wrap;
+            justify-content: space-around;
         }
 
-        .demo .inner{
-            width: 100px;
-            height: 100px;
-            margin-top: 20px;
-            background: coral;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #app .box{
+            width: 25vw;
+            height: 25vw;
+            max-width: 250px;
+            max-height: 250px;
+            background: #e9e9e9;
+            margin: 20px 0 0 20px;
         }
     </style>
     <script src="https://vuejs.org/js/vue.min.js"></script>
 </head>
 <body>
     
-    <div class="demo">
-        <span>{{ msg }}</span>
-        <div class="inner" v-tap='tap'></div>
-    </div>
+   <div id="app">
+       <div class="box"></div>
+       <div class="box"></div>
+       <div class="box"></div>
+       <div class="box"></div>
+       <div class="box"></div>
+       <div class="box"></div>
+   </div>
 
-    <script src="../dist/bundle.js"></script>
-    <script>
-        Vue.directive('tap',vueTap.tap);
-        var app = new Vue({
-            el: ".demo",
-            data: {
-                msg: 'Hello Vue'
-            },
-            methods: {
-                tap(){
-                    console.log('tap');
-                }
-            }
-        });
+   <script>
+       var app = new Vue({
+           el: '#app'
+       });
+   </script>
 
-    </script>
 </body>
 </html>

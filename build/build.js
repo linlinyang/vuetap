@@ -5,6 +5,7 @@ import commonjs from 'rollup-plugin-commonjs';//这两个插件可以让你加�
 import node from 'rollup-plugin-node-resolve';//这两个插件可以让你加载Node.js里面的CommonJS模块
 import babel from 'rollup-plugin-babel';//打包的时候使用Babel
 import {uglify} from 'rollup-plugin-uglify';//压缩、美化js文件
+import replace from 'rollup-plugin-replace';
 
 const path = require('path');
 const resolve = _path => path.resolve(__dirname,'../',_path);
@@ -19,18 +20,18 @@ const banner =
 `;
 
 const outputs = [{
-    file: resolve('dist/bundle.js'),
+    file: resolve('dist/vueTap.js'),
     format: 'umd',
     env: 'development'
 },{
-    file: resolve('dist/bundle.min.js'),
+    file: resolve('dist/vueTap.min.js'),
     format: 'umd',
     env: 'production'
 },{
-    file: resolve('dist/bundle.common.js'),
+    file: resolve('dist/vueTap.common.js'),
     format: 'cjs'
 },{
-    file: resolve('dist/bundle.esm.js'),
+    file: resolve('dist/vueTap.esm.js'),
     format: 'es'
 }];
 
@@ -42,6 +43,9 @@ function buildRollupConfig(output){
             node(),
             commonjs(),
             buble(),
+            replace({
+                __VERSION__: version
+            }),
             babel({
                 extensions: [".js"],
                 runtimeHelpers: true,
@@ -52,7 +56,7 @@ function buildRollupConfig(output){
             file: output.file,
             format: output.format,
             banner,
-            name: 'library'
+            name: 'vueTap'
         }
     };
 

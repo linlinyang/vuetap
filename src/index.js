@@ -1,20 +1,9 @@
-import { inBrowser,touchSupport,passiveSupport } from './utils/dom';
-import { createTouchStart,createTouchEnd } from './core/index';
-import inject from './core/inject';
+import { inBrowser,touchSupport } from './utils/dom';
+import init from './core/index';
 
 const vueTap = {
-    bind(el,binding){
-        const modifiers = binding.modifiers;
-        console.log(arguments);
-        if(touchSupport){
-            el.bind('touchstart',createTouchStart(modifiers),modifiers);
-            el.bind('touchend',createTouchEnd(binding,modifiers),modifiers);
-        }else{
-            el.bind('mousedown',createTouchStart(modifiers),modifiers);
-            el.bind('mouseup',createTouchEnd(binding,modifiers),modifiers);
-        }
-    },
     unbind(el,binding){
+        const modifiers = binding.modifiers;
         if(touchSupport){
             el.unbind('touchstart',modifiers);
             el.unbind('touchend',modifiers);
@@ -25,11 +14,10 @@ const vueTap = {
     }
 };
 
-inject(vueTap);
-vueTap.componentUpdated = vueTap.bind;
+init(vueTap);
 
 vueTap.version = '__VERSION__';
-if(inBrowser){
+if(inBrowser){//在浏览器中安装该插件
     vueTap.install = (vue) => {
         vue.directive('vueTap',vueTap);
     };
