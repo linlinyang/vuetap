@@ -288,7 +288,7 @@
       directiveName = camelize(directiveName);
       return function (propName) {
         if (typeof handlerObj === 'function') {
-          return directiveName === propName || propName === 'tap' ? handlerObj : null;
+          return directiveName === propName || directiveName === 'vueTap' && propName === 'tap' ? handlerObj : null;
         }
 
         if (isPlainObject(handlerObj)) {

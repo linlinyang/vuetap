@@ -6,51 +6,229 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        .header{
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+        }
+        .header div{
+            margin-top: 20px;
+        }
+
         #app{
             width: 100%;
             max-width: 1000px;
             margin: 0 auto;
             display: flex;
-            flex-flow: row wrap;
+            flex-flow: column wrap;
             justify-content: space-around;
         }
 
         #app .box{
-            width: 25vw;
-            height: 25vw;
-            max-width: 250px;
-            max-height: 250px;
+            width: 100%;
+            padding: 50px 20px;
+            box-sizing: border-box;
             background: #e7e7e7;
-            margin: 20px 0 0 20px;
+            margin-top: 20px;
             color: #575757;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            flex-flow: column wrap;
+            text-align: center;
         }
+        #app .box .tips{
+            margin-top: 20px;
+            font-size: 12px;
+            color: #333;
+        }
+        .warning{
+            color: #7c680e;
+        }
+
     </style>
     <script src="https://vuejs.org/js/vue.min.js"></script>
 </head>
 <body>
     
+    <div class="header">
+        <div>vueTap插件兼容性和vue框架兼容性类似</div>
+        <div>示例代码可右键查看源码</div>
+        <div>安装方式：
+            <code>npm i -D vue-tap-directive</code>
+            <br>
+            <code>&lt;script src=&#x27;https://github.com/linlinyang/vuetap/blob/master/dist/vueTap.min.js&#x27;&gt;&lt;/script&gt;</code>
+        </div>
+    </div>
+
    <div id="app">
-       <div class="box" v-vue-tap='vueTap'>
-           <div>v-vue-tap='vueTap'</div>
+       <div class="box" id='box1' v-vue-tap='{
+           tap: tapHandler,
+           swiperLeft: swiperLeftHandler,
+           swiperRight: swiperRightHandler,
+           swiperUp: swiperUpHandler,
+           swiperDown: swiperDownHandler
+       }'>
+            <div>{{ vueTapAll }}</div>
+            <div class="tips">
+                <span>绑定所有指令，请在控制台查看console.log结果</span>
+            </div>
        </div>
-       <div class="box"></div>
-       <div class="box"></div>
-       <div class="box"></div>
-       <div class="box"></div>
-       <div class="box"></div>
+       <div class="box" id='box2' v-vue-tap='clickHandler'>
+           <div>{{ bindVueTap }}</div>
+           <div class="tips">
+               <span>默认绑定点击事件</span>
+           </div>
+       </div>
+       <div class="box" id="box3" v-touch-right='swiperRightHandler'>
+            <div>{{ vueTapCustom }}</div>
+            <div class="tips">
+                <span>自定义指令时使用vuetap的swiperRight属性，自定义指令驼峰命名使用指令时请转换成v-逆驼峰格式</span><br><br>
+                <span class="warning">请在控制台查看结果，其他可自定义指令与此相同</span>
+            </div>
+       </div>
+       <div class="box" id="box4" v-tap='tapHandler'>
+            <div>{{ vueTapCustom }}</div>
+            <div class="tips">
+                <span>自定义指令时使用vuetap的tap属性，自定义指令驼峰命名使用指令时请转换成v-逆驼峰格式</span><br><br>
+                <span class="warning">请在控制台查看结果，其他可自定义指令与此相同</span>
+            </div>
+       </div>
+       <div class="box">
+           <div>所有可用于自定义指令vueTap的属性：</div>
+           <br>
+           <div class="row1">
+            directives: {
+                touchRight: vueTap.swiperRight
+            },//定义右滑指令
+           </div>
+           <div class="row2">
+            directives: {
+                touchLeft: vueTap.swiperLeft
+            },//定义左滑指令
+           </div>
+           <div class="row3">
+            directives: {
+                touchDown: vueTap.swiperDown
+            },//定义下滑指令
+           </div>
+           <div class="row4">
+            directives: {
+                touchUp: vueTap.swiperUp
+            },//定义上滑指令
+           </div>
+           <div class="row5">
+            directives: {
+                tap: vueTap.tap
+            },//定义点击指令
+           </div>
+       </div>
+       <div class="box">
+           <div>全局安装示例：</div>
+           <div>
+               <code>Vue.use('vueTap',vueTap)</code>
+           </div>
+           <div class="tips">
+               <span>此方法使用与示例1类似</span>
+           </div>
+       </div>
+       <div class="box">
+           <div>全局安装单个属性：</div>
+           <div>
+               <code>
+                   Vue.use({
+                       install: function(){
+                            Vue.directive('customName',vueTap.swiperLeft);
+                        }
+                   })
+               </code>
+           </div>
+       </div>
    </div>
 
    <script src="../dist/vueTap.js"></script>
    <script>
-       var app = new Vue({
-           el: '#app',
-           methods: {
-            vueTap(){
-                console.log('vue-tap');
+       
+        var box1 = new Vue({
+            el: '#box1',
+            data: {
+                vueTapAll: `
+                <div class="box" id='box1' v-vue-tap='{
+                    tap: tapHandler,
+                    swiperLeft: swiperLeftHandler,
+                    swiperRight: swiperRightHandler,
+                    swiperUp: swiperUpHandler,
+                    swiperDown: swiperDownHandler
+                }'></div>
+                `
+            },
+            methods: {
+                tapHandler: function(){
+                    console.log('点击');
+                },
+                swiperLeftHandler: function(){
+                    console.log('左滑');
+                },
+                swiperRightHandler: function(){
+                    console.log('右滑');
+                },
+                swiperUpHandler: function(){
+                    console.log('上滑');
+                },
+                swiperDownHandler: function(){
+                    console.log('下滑');
+                }
             }
-           }
-       });
-   </script>
+        })
+   
+        var box2 = new Vue({
+            el: '#box2',
+            data: {
+                bindVueTap: `
+                    <div v-vue-tap='vueTap'></div>
+                `
+            },
+            methods: {
+                clickHandler: function(){
+                    alert('点击');
+                }
+            }
+        });
+
+        var box3 = new Vue({
+            el: '#box3',
+            data: {
+                vueTapCustom: `
+                    <div v-touch-right='swiperRightHandler'></div>
+                `
+            },
+            directives: {
+                touchRight: vueTap.swiperRight
+            },
+            methods: {
+                swiperRightHandler: function(){
+                    console.log('组件内自定义指令，右滑');
+                }
+            }
+        });
+        var box4 = new Vue({
+            el: '#box4',
+            data: {
+                vueTapCustom: `
+                    <div v-tap='tapHandler'></div>
+                `
+            },
+            directives: {
+                tap: vueTap.tap
+            },
+            methods: {
+                tapHandler: function(){
+                    alert('点击');
+                }
+            }
+        });     
+    </script>
 
 </body>
 </html>
