@@ -1,5 +1,5 @@
 /* !
-  * vueTap v2.0.1
+  * vueTap v2.0.2
   * https://github.com/linlinyang/vuetap
   * 
   * (c) 2019 Yang Lin
@@ -351,7 +351,7 @@ var vueTap = {
   }
 };
 init(vueTap);
-vueTap.version = '2.0.1';
+vueTap.version = '2.0.2';
 
 if (inBrowser) {
   //在浏览器中安装该插件
