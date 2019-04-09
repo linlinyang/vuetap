@@ -3,6 +3,7 @@
 <img alt="npm" src="https://img.shields.io/npm/v/vue-tap-directive.svg">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/linlinyang/vueTap.svg">
 </p>
+
 ## vue-tap-directive ##
 
 
@@ -11,15 +12,16 @@
 
 ## 浏览器兼容/Browser Compatibility ##
 
-**vue-tap-derective** 和vuejs兼容性类似。<br>
-**vue-tap-derective** Browser Compatibility similar as vuejs.
+**vue-tap-derective** 和vuejs兼容性相同。<br>
+**vue-tap-derective** Browser Compatibility the same as vuejs.
 
 ## 安装/Install ##
 
 **CDN**
 
+```html
     <script type="text/javascript" src="./dist/vueTap.min.js"></script>
-
+```
 **NPM**
 
     npm i -D vue-tap-directive
