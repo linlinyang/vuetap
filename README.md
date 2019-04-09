@@ -24,12 +24,15 @@
 ```
 **NPM**
 
+```shell
     npm i -D vue-tap-directive
+```
 
 ## 示例/Example ##
 
 **示例一：绑定全部 / Example 1： bind all directive**
 
+```html
 	<script src="https://vuejs.org/js/vue.min.js"></script>
 	<div class="box" id='box1' v-vue-tap:args.stop.once='{
            tap: tapHandler,
@@ -62,9 +65,11 @@
             }
         })
 	</script>
+```
 
 **示例二：默认绑定 / Example 2： bind by defualt**
 
+```html
 	<script src="https://vuejs.org/js/vue.min.js"></script>
 	<div class="box" id='box2' v-vue-tap:foo.stop.once='clickHandler'>
        <div class="tips">
@@ -81,10 +86,12 @@
                 }
             }
         });
-	</script>
+    </script>
+```
 
 **示例三：自定义指令名绑定 / Custom directive name when bind**
 
+```html
 	<script src="https://vuejs.org/js/vue.min.js"></script>
 	<div class="box" id="box3" v-touch-right='swiperRightHandler' v-foo-left='swiperLeftHandler' v-custom-up='swiperUpHandler' v-self-down='swiperDownHandler'>
         <div class="tips">
@@ -120,7 +127,8 @@
                 }
             }
         });
-	</script>
+    </script>
+```
 
 ## 补充/supplement ##
 > 使用vueTap定义的指令为同一个元素绑定相同指令及修饰符时，只执行该指令最后绑定到该元素上的回调函数<br>
