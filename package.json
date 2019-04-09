@@ -2,7 +2,10 @@
   "name": "vue-tap-directive",
   "version": "2.0.0",
   "description": "A plugin for vue directive",
-  "main": "index.js",
+  "main": "dist/vueTap.common.js",
+  "module": "dist/vueTap.esm.js",
+  "unpkg": "dist/vueTap.js",
+  "jsdelivr": "dist/vueTap.js",
   "scripts": {
     "dev": "rollup -w -c build/build.js",
     "build": "rollup -c build/build.js"
