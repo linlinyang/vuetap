@@ -91,14 +91,14 @@ if (!Element.prototype.bind) {
   * @params {modifiers} Object;事件修饰符
   */
   Element.prototype.bind = function (type, handler, modifiers) {
-    this.unbind(type, modifiers); //释放相同元素相同修饰符已经绑定的事件
+    free(this, type, modifiers); //释放相同元素相同修饰符已经绑定的事件
 
     var caches = this._cacheEvents || (this._cacheEvents = []);
-    caches.push({
+    caches.push(Object.assign(Object.create(null), {
       type: type,
       handler: handler,
       modifiers: modifiers
-    });
+    }));
     var options = passiveSupport ? {
       capture: modifiers.capture,
       passive: modifiers.passive
@@ -117,12 +117,7 @@ if (!Element.prototype.unbind) {
   * @params {modifiers} Object;指令修饰符
   */
   Element.prototype.unbind = function (type, modifiers) {
-    var handler = free(this, type, modifiers);
-    var options = passiveSupport ? {
-      capture: modifiers.capture,
-      passive: modifiers.passive
-    } : modifiers.capture;
-    this.removeEventListener(type, handler, options);
+    free(this, type, modifiers);
   };
 }
 /* 
@@ -145,19 +140,22 @@ function free(el, type, modifiers) {
   var left = caches.length >> 1;
   var right = left + 1;
   var prev = caches[left],
-      next = caches[right],
-      removeCachesIndex = [];
+      next = caches[right];
+  var options = passiveSupport ? {
+    capture: modifiers.capture,
+    passive: modifiers.passive
+  } : modifiers.capture;
 
   while (prev || next) {
     if (prev && prev.type === type && equal(prev.modifiers, modifiers)) {
-      removeCachesIndex.push(left);
-      el.unbind(prev.type, prev.handler, prev.modifiers);
+      el.removeEventListener(prev.type, prev.handler, options);
+      caches.splice(left, 1);
       return prev.handler;
     }
 
     if (next && next.type === type && equal(next.modifiers, modifiers)) {
-      removeCachesIndex.push(right);
-      el.unbind(right.type, right.handler, right.modifiers);
+      el.removeEventListener(right.type, right.handler, options);
+      caches.splice(right, 1);
       return right.handler;
     }
 
@@ -165,9 +163,6 @@ function free(el, type, modifiers) {
     next = caches[++right];
   }
 
-  removeCachesIndex.forEach(function (val) {
-    caches.splice(val, 1);
-  });
   return null;
 }
 
