@@ -21,7 +21,7 @@ if(inBrowser){//在浏览器中安装该插件
     vueTap.install = (vue) => {
         vue.directive('vueTap',vueTap);
     };
-    Vue && Vue.use(vueTap);
+    window.Vue && Vue.use(vueTap);
 }
 
 export default vueTap;
