@@ -1,5 +1,5 @@
 /* !
-  * vueTap v2.0.3
+  * vueTap v2.0.4
   * https://github.com/linlinyang/vuetap
   * 
   * (c) 2019 Yang Lin
@@ -145,20 +145,19 @@ function free(el, type, modifiers) {
   var left = caches.length >> 1;
   var right = left + 1;
   var prev = caches[left],
-      next = caches[right];
+      next = caches[right],
+      removeCachesIndex = [];
 
   while (prev || next) {
     if (prev && prev.type === type && equal(prev.modifiers, modifiers)) {
       removeCachesIndex.push(left);
       el.unbind(prev.type, prev.handler, prev.modifiers);
-      caches.splice(left, 1);
       return prev.handler;
     }
 
     if (next && next.type === type && equal(next.modifiers, modifiers)) {
       removeCachesIndex.push(right);
       el.unbind(right.type, right.handler, right.modifiers);
-      caches.splice(right, 1);
       return right.handler;
     }
 
@@ -166,6 +165,9 @@ function free(el, type, modifiers) {
     next = caches[++right];
   }
 
+  removeCachesIndex.forEach(function (val) {
+    caches.splice(val, 1);
+  });
   return null;
 }
 
@@ -349,7 +351,7 @@ var vueTap = {
   }
 };
 init(vueTap);
-vueTap.version = '2.0.3';
+vueTap.version = '2.0.4';
 
 if (inBrowser) {
   //在浏览器中安装该插件

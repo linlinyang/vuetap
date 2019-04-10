@@ -73,7 +73,8 @@ function free(el,type,modifiers){
     let left = caches.length >> 1;
     let right = left + 1;
     let prev = caches[left],
-        next = caches[right];
+        next = caches[right],
+        removeCachesIndex = [];
 
     while(prev || next){
         if(
@@ -83,7 +84,6 @@ function free(el,type,modifiers){
         ){
             removeCachesIndex.push(left);
             el.unbind(prev.type,prev.handler,prev.modifiers);
-            caches.splice(left,1);
             return prev.handler;
         }
         if(
@@ -93,12 +93,15 @@ function free(el,type,modifiers){
         ){
             removeCachesIndex.push(right);
             el.unbind(right.type,right.handler,right.modifiers);
-            caches.splice(right,1);
             return right.handler;
         }
         prev = caches[--left];
         next = caches[++right];
     }
+
+    removeCachesIndex.forEach((val) => {
+        caches.splice(val,1);
+    });
 
     return null;
 }
